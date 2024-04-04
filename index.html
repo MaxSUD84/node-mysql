@@ -3,18 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="src/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + Vue + TS</title>
   </head>
   <body>
-    <div id="app" class="container pt-5">
+    <!-- <div id="app" class="container pt-5">
       <div class="card center">
-        <h1>Счетчик: {{ counter }}</h1>
+        <h1>{{ title }} : {{ counter }}</h1>
         <div>
-          <button type="button" class="btn primary">+</button>
-          <button type="button" class="btn danger">-</button>
+          <button type="button" class="btn primary" v-on:click="counter++">+</button>
+          <button type="button" class="btn danger" v-on:click="counter = counter - 1">-</button>
         </div>
+      </div>
+    </div> -->
+    <div id="app" class="container">
+      <div class="card">
+        <h1>{{ title }}</h1>
+        <div class="form-control">
+          <input 
+              type="text" 
+              v-bind:placeholder="placeholderString"
+              v-bind:value="inputValue" 
+              v-on:input="inputChangeHandler"
+              v-on:keypress.enter="btnAddNoteHandler"
+          />
+        </div>
+        <pre>inputValue: {{ inputValue }}</pre>
+          <button type="button" class="btn" v-on:click="btnAddNoteHandler">Добавить</button>
+          <hr>
+          <ul class="list">
+            <li class="list-item" v-for="note in notes">{{ note }}</li>
+          </ul>
       </div>
     </div>
     <script src="/src/main.ts" type="module"></script>
