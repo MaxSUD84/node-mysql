@@ -3,18 +3,62 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="src/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Vue + TS</title>
+    <title>Example_2</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
   </head>
   <body>
-    <div id="app" class="container pt-5">
-      <div class="card center">
-        <h1>Счетчик: {{ counter }}</h1>
-        <div>
-          <button type="button" class="btn primary">+</button>
-          <button type="button" class="btn danger">-</button>
+    <div id="app" class="container" v-cloak>
+      <div class="card">
+        <div v-html="html"></div>
+<!--    
+        <h1 :style="{ 
+          color: inputValue.length > 5 ? 'green' : 'blue',
+          fontSize: inputValue.length < 10 ? '2rem' : '1.5rem',
+        }" >{{ title }}</h1>
+        <h2 v-once>{{ title }}</h2>
+        <h2 v-pre>{{ title + 10 }}</h2> 
+-->
+
+        <div class="form-control">
+          <!-- [1]: directive : => same v-bind  and  @ => same v-on  -->
+          <!-- [2]: directive v-model => same :value = "inputValue" and  @input="inputChangeHandler" -->
+          <input 
+              type="text" 
+              :placeholder="placeholderString"
+              ref="myInput"
+              @keyup.alt.enter.exact ="btnAddNoteHandler($event)"
+          />
+          <pre :style="{color:'red'}">{{ errorMessage }}</pre>
         </div>
+        <button type="button" class="btn" v-on:click="btnAddNoteHandler">Добавить</button>
+        <hr>
+
+        <ul class="list" v-if="items.length">
+          <!-- <li class="item-list" v-for="(item, ind) in 7">
+            ({{ ind + 1 }}) - item {{ item }} 
+          </li> -->
+          
+          <!-- <li class="item-list" v-for="(value, key) in person">
+            <strong>{{ key }} :</strong> {{ value }} 
+          </li> -->
+
+          <li 
+            class="item-list" 
+            v-for="(item, ind) in items"
+            @click.right.prevent="removeRow(ind), log(item)"
+            :key="item"
+          >
+           <strong>({{ item }}):</strong>&nbsp;
+           <input type="text" @click.stop> 
+          </li>
+        </ul>
+        <h3 v-show="items.length === 0">Элемментов нет</h3>
       </div>
     </div>
     <script src="/src/main.ts" type="module"></script>
