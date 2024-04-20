@@ -1,8 +1,10 @@
 import express from 'express';
 import path from 'node:path';
 import { cwd } from 'node:process';
+import { graphqlHTTP } from 'express-graphql';
+import { schema } from './graphql/schema.js';
+import resolver from './graphql/resolver.js';
 // import todoRouter from './routes/todo.js';
-import todoRouter from './routes/todo.js';
 
 class Index {
   constructor() {
@@ -29,11 +31,17 @@ class Index {
       )
     );
     this.server.use(express.json());
+    this.server.use(
+      graphqlHTTP({
+        schema: schema,
+        rootValue: resolver,
+        graphiql: true,
+      })
+    );
   }
 
   routes() {
-    this.server.use('/api/todo', todoRouter);
-    //this.server.use(routes);
+    // this.server.use('/api/todo', todoRouter);
   }
 }
 
